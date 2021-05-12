@@ -5,18 +5,17 @@
 
 struct Data
 {
-	char str1[24];
+	std::string str1;
 	int num;
-	char str2[24];
+	std::string str2;
 };
 
-void rand_string(char str[24])
+void rand_string(std::string &str)
 {
 	char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	for (int i = 0; i < 23; i++)
-		str[i] = charset[std::rand() % 52];
-	str[23] = 0;
+		str.append(1, charset[std::rand() % 52]);
 }
 
 Data *deserialize(void *raw)
