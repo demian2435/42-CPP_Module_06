@@ -9,8 +9,14 @@
 static bool is_all_number(std::string input)
 {
 	for (unsigned long i = 0; i < input.size(); i++)
+	{
 		if (!std::isdigit(input.at(i)))
+		{
+			if (i == 0 && input.at(i) == '-' && input.size() != 1)
+				continue;
 			return false;
+		}
+	}
 	return true;
 }
 
@@ -65,9 +71,9 @@ int main (int argc, char **argv)
 		std::cout << GREEN << "** FLOAT" << OFF << std::endl;
 		conv.str("");
 		conv << input.substr(0, input.size() - 1);
-		conv >> f;
-		i = static_cast<int>(f);
-		d = static_cast<double>(f);
+		conv >> d;
+		i = static_cast<int>(d);
+		f = static_cast<float>(d);
 		conv_control_1.str("");
 		conv_control_1 << d;
 		conv_control_1 >> control_1;
@@ -78,7 +84,10 @@ int main (int argc, char **argv)
 			std::cout << "char: '" << char(i) << "'"<< std::endl;
 		else
 			std::cout << "char: Non displayable" << std::endl;
-		std::cout << "int: " << i << std::endl;
+		if (std::round(std::abs(d)) > std::abs(i))
+			std::cout << "int: overflow" << std::endl;
+		else
+			std::cout << "int: " << i << std::endl;
 		if (control_1.size() == control_2.size())
 		{
 			std::cout << "float: " << f << ".0f" << std::endl;
@@ -109,7 +118,10 @@ int main (int argc, char **argv)
 			std::cout << "char: '" << char(i) << "'"<< std::endl;
 		else
 			std::cout << "char: Non displayable" << std::endl;
-		std::cout << "int: " << i << std::endl;
+		if (std::round(std::abs(d)) > std::abs(i))
+			std::cout << "int: overflow" << std::endl;
+		else
+			std::cout << "int: " << i << std::endl;
 		if (control_1.size() == control_2.size())
 		{
 			std::cout << "float: " << f << ".0f" << std::endl;
@@ -127,16 +139,27 @@ int main (int argc, char **argv)
 		std::cout << GREEN << "** INT" << OFF << std::endl;
 		conv.str("");
 		conv << input;
-		conv >> i;
-		f = static_cast<float>(i);
-		d = static_cast<double>(i);
+		conv >> d;
+		f = static_cast<float>(d);
+		i = static_cast<int>(d);
 		if (std::isprint(i))
 			std::cout << "char: '" << char(i) << "'"<< std::endl;
 		else
 			std::cout << "char: Non displayable" << std::endl;
-		std::cout << "int: " << i << std::endl;
-		std::cout << "float: " << f << ".0f" << std::endl;
-		std::cout << "double: " << d << ".0" << std::endl;	
+		if (std::abs(d) > std::abs(i))
+			std::cout << "int: overflow" << std::endl;
+		else
+			std::cout << "int: " << i << std::endl;
+		if (std::abs(d) >= 1000000)
+		{
+			std::cout << "float: " << f << "f" << std::endl;
+			std::cout << "double: " << d << std::endl;	
+		}
+		else
+		{
+			std::cout << "float: " << f << ".0f" << std::endl;
+			std::cout << "double: " << d << ".0" << std::endl;
+		}
 	}
 	// CHAR
 	else if (input.size() == 1 && std::isprint(input.at(0)))
