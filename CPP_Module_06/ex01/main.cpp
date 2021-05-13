@@ -44,7 +44,6 @@ void *serialize(void)
 int main (void)
 {
 	std::srand(std::time(0));
-	std::cout << "Size of struct Data: " << sizeof(Data) << " byte" << std::endl; 
 	void *data_raw = serialize();
 	Data *d = deserialize(data_raw);
 	delete (d);
